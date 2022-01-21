@@ -5,7 +5,7 @@ import { useGlobalContext } from './context';
 function App() {
   const {
     elevatorFloor,
-    inquiryFloor,
+    destinationFloor,
     newFloorRequest,
     activateElevator,
     doorOpen,
@@ -34,7 +34,7 @@ function App() {
       <br />
 
       <h2>You are at floor</h2>
-      <h2>{inquiryFloor}</h2>
+      <h2>{destinationFloor}</h2>
       <div>
         <div>
           <button onClick={activateElevator}>go up</button>
@@ -43,7 +43,10 @@ function App() {
           <button onClick={activateElevator}>go down</button>
         </div>
       </div>
-      {/* <FloorButtons /> */}
+      <br />
+      <br />
+      <br />
+      <FloorButtons />
     </div>
   );
 }
