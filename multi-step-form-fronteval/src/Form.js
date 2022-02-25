@@ -50,6 +50,7 @@ const Form = () => {
   };
 
   const nextPage = (e) => {
+    // nextPage handles going +1 on pages and submitting
     e.preventDefault();
     if (page === 1 && formValues.email.includes('@gmail.com')) {
       setShowSurvery(true);
@@ -107,13 +108,6 @@ const Form = () => {
   );
 };
 
-const Congrats = () => {
-  return (
-    <div>
-      <h1>Congrats you finished</h1>
-    </div>
-  );
-};
 
 export default Form;
 
