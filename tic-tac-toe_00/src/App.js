@@ -2,38 +2,83 @@ import React, { useState } from 'react';
 import Square from './Square';
 import Circle from './Circle';
 import Cross from './Cross';
+import Result from './Result';
 
 const EMPTY = 'EMPTY';
 const CIRCLE = 'CIRCLE';
 const CROSS = 'CROSS';
 
 function App() {
-  const player = '';
-  const positions = [
-    CROSS,
-    EMPTY,
-    EMPTY,
-    EMPTY,
-    CIRCLE,
-    EMPTY,
-    EMPTY,
-    EMPTY,
-    EMPTY,
-  ];
+  const [state, setState] = useState({
+    player: CROSS,
+    positions: [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+  });
+  // const positions = [
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  //   EMPTY,
+  // ];
+
+  function takeTurn(position) {
+    const positions = [...state.positions];
+    positions[position] = state.player;
+
+    setState({
+      player: state.player === CIRCLE ? CROSS : CIRCLE,
+      positions,
+    });
+  }
+
+  function detectWinner(p) {
+    if (p[0] === CIRCLE && p[1] === CIRCLE && p[2] === CIRCLE) return CIRCLE;
+    if (p[3] === CIRCLE && p[4] === CIRCLE && p[5] === CIRCLE) return CIRCLE;
+    if (p[6] === CIRCLE && p[7] === CIRCLE && p[8] === CIRCLE) return CIRCLE;
+
+    if (p[0] === CIRCLE && p[3] === CIRCLE && p[6] === CIRCLE) return CIRCLE;
+    if (p[1] === CIRCLE && p[4] === CIRCLE && p[7] === CIRCLE) return CIRCLE;
+    if (p[2] === CIRCLE && p[5] === CIRCLE && p[8] === CIRCLE) return CIRCLE;
+
+    if (p[0] === CIRCLE && p[4] === CIRCLE && p[8] === CIRCLE) return CIRCLE;
+    if (p[2] === CIRCLE && p[4] === CIRCLE && p[6] === CIRCLE) return CIRCLE;
+
+    if (p[0] === CROSS && p[1] === CROSS && p[2] === CROSS) return CROSS;
+    if (p[3] === CROSS && p[4] === CROSS && p[5] === CROSS) return CROSS;
+    if (p[6] === CROSS && p[7] === CROSS && p[8] === CROSS) return CROSS;
+
+    if (p[0] === CROSS && p[3] === CROSS && p[6] === CROSS) return CROSS;
+    if (p[1] === CROSS && p[4] === CROSS && p[7] === CROSS) return CROSS;
+    if (p[2] === CROSS && p[5] === CROSS && p[8] === CROSS) return CROSS;
+
+    if (p[0] === CROSS && p[4] === CROSS && p[8] === CROSS) return CROSS;
+    if (p[2] === CROSS && p[4] === CROSS && p[6] === CROSS) return CROSS;
+
+    if (p.every((position) => position !== EMPTY)) return 'It is a tie';
+  }
+
+  const winner = detectWinner(state.positions);
 
   return (
-    <div className="App">
-      <section className="grid">
-        <Square position={0} value={positions[0]} />
-        <Square position={1} value={positions[1]} />
-        <Square position={2} value={positions[2]} />
-        <Square position={3} value={positions[3]} />
-        <Square position={4} value={positions[4]} />
-        <Square position={5} value={positions[5]} />
-        <Square position={6} value={positions[6]} />
-        <Square position={7} value={positions[7]} />
-        <Square position={8} value={positions[8]} />
-      </section>
+    <div className="section">
+      <div className="App">
+        <section className="grid">
+          <Square position={0} value={state.positions[0]} takeTurn={takeTurn} />
+          <Square position={1} value={state.positions[1]} takeTurn={takeTurn} />
+          <Square position={2} value={state.positions[2]} takeTurn={takeTurn} />
+          <Square position={3} value={state.positions[3]} takeTurn={takeTurn} />
+          <Square position={4} value={state.positions[4]} takeTurn={takeTurn} />
+          <Square position={5} value={state.positions[5]} takeTurn={takeTurn} />
+          <Square position={6} value={state.positions[6]} takeTurn={takeTurn} />
+          <Square position={7} value={state.positions[7]} takeTurn={takeTurn} />
+          <Square position={8} value={state.positions[8]} takeTurn={takeTurn} />
+        </section>
+      </div>
+      {winner && <Result winner={winner} />}
     </div>
   );
 }
